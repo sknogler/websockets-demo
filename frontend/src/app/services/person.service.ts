@@ -41,6 +41,14 @@ export class PersonService {
 
       //alle personen de ma hobn
       const persons: Person[] = this.personSubject.value
+
+      if (person.source === this.webSocket.getSessionId()!.toString()){
+        person.source = "self"
+      } else {
+        person.source = "other"
+      }
+
+
       //gebn de neiche person dazua
       persons.push(person)
       //publishen des ganze
@@ -61,6 +69,9 @@ export class PersonService {
 
     this.backend.post<Person>('persons', body).then(value => {
       console.log(value)
+
+      value.source = this.webSocket.getSessionId()!.toString();
+
       this.webSocket.sendMessage(JSON.stringify(value))
       //des isses
     });

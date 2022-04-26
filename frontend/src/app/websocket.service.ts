@@ -14,6 +14,10 @@ export class WebsocketService {
     this.socket = null;
   }
 
+  public getSessionId(): number | undefined{
+    return this.socket?.sessionId;
+  }
+
   connect(): Observable<string>{
     if (!this.socket){
       this.socket = new WebsocketUtil()
